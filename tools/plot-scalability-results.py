@@ -52,7 +52,7 @@ def parse_results_file():
             stime = float(tokens[3].strip())
             ptime = float(tokens[4].strip())
             ttime = float(tokens[5].strip())
-            print "approach: {}, tssize: {}, tcsize: {}, stime: {}, ptime: {}, ttime: {}".format(approach, tssize, tcsize, stime, ptime, ttime)
+            print("approach: {}, tssize: {}, tcsize: {}, stime: {}, ptime: {}, ttime: {}".format(approach, tssize, tcsize, stime, ptime, ttime))
             try:
                 results[approach][tcsize].update({tssize: {'stime': stime, 'ptime': ptime, 'ttime': ttime}})
             except KeyError:
@@ -80,7 +80,7 @@ def get_traces_to_plot(results):
                 else:
                     times.append(None)
             except KeyError:
-                print 'approach, ts_size: ', approach, ts_size
+                print('approach, ts_size: ', approach, ts_size)
         trace = go.Scatter(
             x=ts_sizes,
             y=times,
@@ -238,9 +238,9 @@ if __name__ == '__main__':
     target_time = target_time_map[plot_time]
 
     ts_sizes = (
-        range(1000, 10000, 1000) +
-        range(10000, 100000, 10000) +
-        range(100000, 1000000+1, 100000)
+        list(range(1000, 10000, 1000)) +
+        list(range(10000, 100000, 10000)) +
+        list(range(100000, 1000000+1, 100000))
     )
     # display names
 

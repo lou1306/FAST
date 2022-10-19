@@ -38,7 +38,7 @@ def apfd(prioritization, fault_matrix, javaFlag):
         # key=version, val=[faulty_tcs]
         faults_dict = getFaultDetected(fault_matrix)
         apfds = []
-        for v in xrange(1, len(faults_dict)+1):
+        for v in range(1, len(faults_dict)+1):
             faulty_tcs = set(faults_dict[v])
             numerator = 0.0  # numerator of APFD
             position = 1
@@ -85,7 +85,7 @@ def getFaultDetected(fault_matrix):
 
     with open(fault_matrix, "rb") as picklefile:
         pickledict = load(picklefile)
-    for key in pickledict.keys():
+    for key in list(pickledict.keys()):
         faults_dict[int(key)] = pickledict[key]
 
     return faults_dict

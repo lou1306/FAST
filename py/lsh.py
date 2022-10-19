@@ -37,7 +37,7 @@ def kShingles(TS, k):
     for tcID in TS:
         tc = TS[tcID]
         shingle = set()
-        for i in xrange(len(tc) - k + 1):
+        for i in range(len(tc) - k + 1):
             shingle.add(hash(tc[i:i + k]))
         shingles[tcID] = shingle
 
@@ -65,9 +65,9 @@ def tcMinhashing(test_case, hash_functions):
     n = len(hash_functions)
     tc_ID, tc_shingles = test_case
     # initialized to max_value ('ffffffff') to correctly compute the min
-    tc_signature = ["ffffffff" for i in xrange(n)]
+    tc_signature = ["ffffffff" for i in range(n)]
     for tc_shingle in tc_shingles:
-        for i in xrange(n):
+        for i in range(n):
             tc_hash = hash_functions[i](str(tc_shingle))
             if tc_hash < tc_signature[i]:
                 tc_signature[i] = tc_hash
@@ -145,7 +145,7 @@ def jDistance(a, b):
 
 def jSimilarityEstimate(s1, s2):
     assert(len(s1) == len(s2))
-    return sum([1 for i in xrange(len(s1)) if s1[i] == s2[i]]) / float(len(s1))
+    return sum([1 for i in range(len(s1)) if s1[i] == s2[i]]) / float(len(s1))
 
 def jDistanceEstimate(s1, s2):
     return 1.0 - jSimilarityEstimate(s1, s2)

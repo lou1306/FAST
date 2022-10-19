@@ -58,11 +58,11 @@ if __name__ == '__main__':
 
     filename = "scalability/input/{}x{}.txt".format(ts_size, tc_size)
     with open(filename, "w") as fout:
-        for tc in xrange(1, ts_size + 1):
+        for tc in range(1, ts_size + 1):
             line = ""
             mincov, maxcov = minp * tc_size, maxp * tc_size
             cov = set()
-            for _ in xrange(random.randrange(mincov, maxcov)):
+            for _ in range(random.randrange(mincov, maxcov)):
                 cov.add(random.randint(1, tc_size + 1))
             for st in sorted(cov):
                 line += str(st) + " "

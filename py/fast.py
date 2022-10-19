@@ -43,7 +43,7 @@ def loadTestSuite(input_file, bbox=False, k=5):
             else:
                 TS[tcID] = set(tc[:-1].split())
             tcID += 1
-    shuffled = TS.items()
+    shuffled = list(TS.items())
     random.shuffle(shuffled)
     TS = OrderedDict(shuffled)
     if bbox:
@@ -60,7 +60,7 @@ def storeSignatures(input_file, sigfile, hashes, bbox=False, k=5):
                     # shingling
                     tc_ = tc[:-1]
                     tc_shingles = set()
-                    for i in xrange(len(tc_) - k + 1):
+                    for i in range(len(tc_) - k + 1):
                         tc_shingles.add(hash(tc_[i:i + k]))
 
                     sig = lsh.tcMinhashing((tcID, set(tc_shingles)), hashes)
@@ -108,14 +108,14 @@ def fast_pw(input_file, r, b, bbox=False, k=5, memory=False):
     """
     n = r * b  # number of hash functions
 
-    hashes = [lsh.hashFamily(i) for i in xrange(n)]
+    hashes = [lsh.hashFamily(i) for i in range(n)]
 
     if memory:
         test_suite = loadTestSuite(input_file, bbox=bbox, k=k)
         # generate minhashes signatures
         mh_t = time.clock()
         tcs_minhashes = {tc[0]: lsh.tcMinhashing(tc, hashes)
-                         for tc in test_suite.items()}
+                         for tc in list(test_suite.items())}
         mh_time = time.clock() - mh_t
         ptime_start = time.clock()
 
@@ -141,14 +141,14 @@ def fast_pw(input_file, r, b, bbox=False, k=5, memory=False):
     BASE = 0.5
     SIZE = int(len(tcs)*BASE) + 1
 
-    bucket = lsh.LSHBucket(tcs_minhashes.items(), b, r, n)
+    bucket = lsh.LSHBucket(list(tcs_minhashes.items()), b, r, n)
 
     prioritized_tcs = [0]
 
     # First TC
     selected_tcs_minhash = lsh.tcMinhashing((0, set()), hashes)
-    first_tc = random.choice(tcs_minhashes.keys())
-    for i in xrange(n):
+    first_tc = random.choice(list(tcs_minhashes.keys()))
+    for i in range(n):
         if tcs_minhashes[first_tc][i] < selected_tcs_minhash[i]:
             selected_tcs_minhash[i] = tcs_minhashes[first_tc][i]
     prioritized_tcs.append(first_tc)
@@ -164,7 +164,7 @@ def fast_pw(input_file, r, b, bbox=False, k=5, memory=False):
             sys.stdout.flush()
 
         if len(tcs_minhashes) < SIZE:
-            bucket = lsh.LSHBucket(tcs_minhashes.items(), b, r, n)
+            bucket = lsh.LSHBucket(list(tcs_minhashes.items()), b, r, n)
             SIZE = int(SIZE*BASE) + 1
 
         sim_cand = lsh.LSHCandidates(bucket, (0, selected_tcs_minhash),
@@ -179,7 +179,7 @@ def fast_pw(input_file, r, b, bbox=False, k=5, memory=False):
             filtered_sim_cand = sim_cand.difference(prioritized_tcs)
             candidates = tcs - filtered_sim_cand
             if len(candidates) == 0:
-                candidates = tcs_minhashes.keys()
+                candidates = list(tcs_minhashes.keys())
 
         selected_tc, max_dist = random.choice(tuple(candidates)), -1
         for candidate in tcs_minhashes:
@@ -189,7 +189,7 @@ def fast_pw(input_file, r, b, bbox=False, k=5, memory=False):
                 if dist > max_dist:
                     selected_tc, max_dist = candidate, dist
 
-        for i in xrange(n):
+        for i in range(n):
             if tcs_minhashes[selected_tc][i] < selected_tcs_minhash[i]:
                 selected_tcs_minhash[i] = tcs_minhashes[selected_tc][i]
 
@@ -220,14 +220,14 @@ def fast_(input_file, selsize, r, b, bbox=False, k=5, memory=False):
     """
     n = r * b  # number of hash functions
 
-    hashes = [lsh.hashFamily(i) for i in xrange(n)]
+    hashes = [lsh.hashFamily(i) for i in range(n)]
 
     if memory:
         test_suite = loadTestSuite(input_file, bbox=bbox, k=k)
         # generate minhashes signatures
         mh_t = time.clock()
         tcs_minhashes = {tc[0]: lsh.tcMinhashing(tc, hashes)
-                         for tc in test_suite.items()}
+                         for tc in list(test_suite.items())}
         mh_time = time.clock() - mh_t
         ptime_start = time.clock()
 
@@ -253,14 +253,14 @@ def fast_(input_file, selsize, r, b, bbox=False, k=5, memory=False):
     BASE = 0.5
     SIZE = int(len(tcs)*BASE) + 1
 
-    bucket = lsh.LSHBucket(tcs_minhashes.items(), b, r, n)
+    bucket = lsh.LSHBucket(list(tcs_minhashes.items()), b, r, n)
 
     prioritized_tcs = [0]
 
     # First TC
     selected_tcs_minhash = lsh.tcMinhashing((0, set()), hashes)
-    first_tc = random.choice(tcs_minhashes.keys())
-    for i in xrange(n):
+    first_tc = random.choice(list(tcs_minhashes.keys()))
+    for i in range(n):
         if tcs_minhashes[first_tc][i] < selected_tcs_minhash[i]:
             selected_tcs_minhash[i] = tcs_minhashes[first_tc][i]
     prioritized_tcs.append(first_tc)
@@ -276,7 +276,7 @@ def fast_(input_file, selsize, r, b, bbox=False, k=5, memory=False):
             sys.stdout.flush()
 
         if len(tcs_minhashes) < SIZE:
-            bucket = lsh.LSHBucket(tcs_minhashes.items(), b, r, n)
+            bucket = lsh.LSHBucket(list(tcs_minhashes.items()), b, r, n)
             SIZE = int(SIZE*BASE) + 1
 
         sim_cand = lsh.LSHCandidates(bucket, (0, selected_tcs_minhash),
@@ -291,13 +291,13 @@ def fast_(input_file, selsize, r, b, bbox=False, k=5, memory=False):
             filtered_sim_cand = sim_cand.difference(prioritized_tcs)
             candidates = tcs - filtered_sim_cand
             if len(candidates) == 0:
-                candidates = tcs_minhashes.keys()
+                candidates = list(tcs_minhashes.keys())
 
         to_sel = min(selsize(len(candidates)), len(candidates))
         selected_tc_set = random.sample(tuple(candidates), to_sel)
 
         for selected_tc in selected_tc_set:
-            for i in xrange(n):
+            for i in range(n):
                 if tcs_minhashes[selected_tc][i] < selected_tcs_minhash[i]:
                     selected_tcs_minhash[i] = tcs_minhashes[selected_tc][i]
 

@@ -33,5 +33,5 @@ if __name__ == "__main__":
                   "-branch.txt" in file):
                 pass
             else:
-                print "Deleting {}/{}".format(root, file)
+                print("Deleting {}/{}".format(root, file))
                 os.remove("{}/{}".format(root, file))

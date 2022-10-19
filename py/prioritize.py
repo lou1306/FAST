@@ -55,8 +55,8 @@ def bboxPrioritization(name, prog, v, ctype, k, n, r, b, repeats, selsize):
     if name == "FAST-" + selsize.__name__[:-1]:
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 if javaFlag:
                     stime, ptime, prioritization = fast.fast_(
                         fin, selsize, r=r, b=b, bbox=True, k=k, memory=False)
@@ -69,22 +69,22 @@ def bboxPrioritization(name, prog, v, ctype, k, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "FAST-pw":
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 if javaFlag:
                     stime, ptime, prioritization = fast.fast_pw(
                         fin, r, b, bbox=True, k=k, memory=False)
@@ -97,22 +97,22 @@ def bboxPrioritization(name, prog, v, ctype, k, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "STR":
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 stime, ptime, prioritization = competitors.str_(fin)
                 writePrioritization(ppath, name, ctype, run, prioritization)
                 apfd = metric.apfd(prioritization, fault_matrix, javaFlag)
@@ -120,22 +120,22 @@ def bboxPrioritization(name, prog, v, ctype, k, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "I-TSD":
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 stime, ptime, prioritization = competitors.i_tsd(fin)
                 writePrioritization(ppath, name, ctype, run, prioritization)
                 apfd = metric.apfd(prioritization, fault_matrix, javaFlag)
@@ -143,16 +143,16 @@ def bboxPrioritization(name, prog, v, ctype, k, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     else:
         print("Wrong input.")
@@ -175,8 +175,8 @@ def wboxPrioritization(name, prog, v, ctype, n, r, b, repeats, selsize):
     if name == "GT":
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 stime, ptime, prioritization = competitors.gt(fin)
                 writePrioritization(ppath, name, ctype, run, prioritization)
                 apfd = metric.apfd(prioritization, fault_matrix, javaFlag)
@@ -184,22 +184,22 @@ def wboxPrioritization(name, prog, v, ctype, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "FAST-" + selsize.__name__[:-1]:
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 if javaFlag:
                     stime, ptime, prioritization = fast.fast_(
                         fin, selsize, r=r, b=b, memory=False)
@@ -212,22 +212,22 @@ def wboxPrioritization(name, prog, v, ctype, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "FAST-pw":
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 if javaFlag:
                     stime, ptime, prioritization = fast.fast_pw(fin, r, b)
                 else:
@@ -239,22 +239,22 @@ def wboxPrioritization(name, prog, v, ctype, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "GA":
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 stime, ptime, prioritization = competitors.ga(fin)
                 writePrioritization(ppath, name, ctype, run, prioritization)
                 apfd = metric.apfd(prioritization, fault_matrix, javaFlag)
@@ -262,22 +262,22 @@ def wboxPrioritization(name, prog, v, ctype, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "GA-S":
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 stime, ptime, prioritization = competitors.ga_s(fin)
                 writePrioritization(ppath, name, ctype, run, prioritization)
                 apfd = metric.apfd(prioritization, fault_matrix, javaFlag)
@@ -285,22 +285,22 @@ def wboxPrioritization(name, prog, v, ctype, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "ART-D":
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 stime, ptime, prioritization = competitors.art_d(fin)
                 writePrioritization(ppath, name, ctype, run, prioritization)
                 apfd = metric.apfd(prioritization, fault_matrix, javaFlag)
@@ -308,22 +308,22 @@ def wboxPrioritization(name, prog, v, ctype, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "ART-F":
         if ("{}-{}.tsv".format(name, ctype)) not in set(os.listdir(outpath)):
             ptimes, stimes, apfds = [], [], []
-            for run in xrange(repeats):
-                print " Run", run
+            for run in range(repeats):
+                print(" Run", run)
                 stime, ptime, prioritization = competitors.art_f(fin)
                 writePrioritization(ppath, name, ctype, run, prioritization)
                 apfd = metric.apfd(prioritization, fault_matrix, javaFlag)
@@ -331,16 +331,16 @@ def wboxPrioritization(name, prog, v, ctype, n, r, b, repeats, selsize):
                 stimes.append(stime)
                 ptimes.append(ptime)
                 print("  Progress: 100%  ")
-                print "  Running time:", stime + ptime
+                print("  Running time:", stime + ptime)
                 if javaFlag:
-                    print "  APFD:", sum(apfds[run]) / len(apfds[run])
+                    print("  APFD:", sum(apfds[run]) / len(apfds[run]))
                 else:
-                    print "  APFD:", apfd
+                    print("  APFD:", apfd)
             rep = (name, stimes, ptimes, apfds)
             writeOutput(outpath, ctype, rep, javaFlag)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     else:
         print("Wrong input.")

@@ -37,6 +37,7 @@ import subprocess
 import sys
 
 import lsh
+from functools import reduce
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -59,7 +60,7 @@ def loadTestSuite(input_file, bbox=False, k=5):
             else:
                 TS[tcID] = set(tc[:-1].split())
             tcID += 1
-    shuffled = TS.items()
+    shuffled = list(TS.items())
     random.shuffle(shuffled)
     TS = OrderedDict(shuffled)
     if bbox:
@@ -79,7 +80,7 @@ def gt(input_file):
             for tc in fin:
                 TS[tcID] = len(set(tc[:-1].split()))
                 tcID += 1
-        shuffled = TS.items()
+        shuffled = list(TS.items())
         random.shuffle(shuffled)
         TS = OrderedDict(shuffled)
         return TS
@@ -87,11 +88,11 @@ def gt(input_file):
     ptime_start = time.clock()
 
     TCS = loadTestSuite(input_file)
-    TS = OrderedDict(sorted(TCS.items(), key=lambda t: -t[1]))
+    TS = OrderedDict(sorted(list(TCS.items()), key=lambda t: -t[1]))
 
     ptime = time.clock() - ptime_start
 
-    return 0.0, ptime, TS.keys()
+    return 0.0, ptime, list(TS.keys())
 
 
 # GREEDY SET COVER (ADDITIONAL)
@@ -107,14 +108,14 @@ def ga(input_file):
     ptime_start = time.clock()
 
     TCS = loadTestSuite(input_file)
-    TS = OrderedDict(sorted(TCS.items(), key=lambda t: -len(t[1])))
+    TS = OrderedDict(sorted(list(TCS.items()), key=lambda t: -len(t[1])))
     U = TS.copy()
     Cg = set()
 
     TS[0] = set()
     P = [0]
 
-    maxC = len(reduce(lambda x, y: x | y, TS.values()))
+    maxC = len(reduce(lambda x, y: x | y, list(TS.values())))
 
     while len(U) > 0:
         if len(Cg) == maxC:
@@ -138,7 +139,7 @@ def artd(input_file):
     def generate(U):
         C, T = set(), set()
         while True:
-            ui = random.choice(U.keys())
+            ui = random.choice(list(U.keys()))
             S = U[ui]
             if T | S == T:
                 break
@@ -154,7 +155,7 @@ def artd(input_file):
                 D[cj][pi] = lsh.jDistance(TS[pi], TS[cj])
         # maximum among the minimum distances
         j, jmax = 0, -1
-        for cj in D.keys():
+        for cj in list(D.keys()):
             min_di = min(D[cj].values())
             if min_di > jmax:
                 j, jmax = cj, min_di
@@ -204,7 +205,7 @@ def artf(input_file):
             C = set(U.keys())
         else:
             while len(C) < 10:
-                ui = random.choice(U.keys())
+                ui = random.choice(list(U.keys()))
                 C.add(ui)
         return C
 
@@ -220,7 +221,7 @@ def artf(input_file):
                 D[cj][pi] = manhattanDistance(TS, pi, cj)
         # maximum among the minimum distances
         j, jmax = 0, -1
-        for cj in D.keys():
+        for cj in list(D.keys()):
             min_di = min(D[cj].values())
             if min_di > jmax:
                 j, jmax = cj, min_di
@@ -269,7 +270,7 @@ def ga_s(input_file):
         TCS = loadTestSuite(input_file)
         matrixFile = "{}.mat".format(spanfile)
         with open(matrixFile, "w") as fout:
-            for tcID, tc in TCS.items():
+            for tcID, tc in list(TCS.items()):
                 for cov in tc:
                     fout.write("{} {}\n".format(cov, tcID))
 
@@ -281,13 +282,13 @@ def ga_s(input_file):
         # compute spanning file
         with open(spanfile + ".tmp") as fin:
             spans = {line.strip() for line in fin}
-            for tcID, tc in TCS.items():
+            for tcID, tc in list(TCS.items()):
                 TCS[tcID] = tc & spans
         os.remove(spanfile + ".tmp")
 
         # store spanning file
         with open(spanfile, "w") as fout:
-            for tcID in xrange(1, len(TCS)):
+            for tcID in range(1, len(TCS)):
                 fout.write(" ".join(TCS[tcID]) + "\n")
 
     def select(TS, U, Cg):
@@ -316,14 +317,14 @@ def ga_s(input_file):
     ptime_start = time.clock()
     TCS = loadTestSuite(spanfile)
 
-    TS = OrderedDict(sorted(TCS.items(), key=lambda t: -len(t[1])))
+    TS = OrderedDict(sorted(list(TCS.items()), key=lambda t: -len(t[1])))
     U = TS.copy()
     Cg = set()
 
     TS[0] = set()
     P = [0]
 
-    maxC = len(reduce(lambda x, y: x | y, TS.values()))
+    maxC = len(reduce(lambda x, y: x | y, list(TS.values())))
 
     iteration, total = 0, float(len(TCS))
     while len(U) > 0:
@@ -360,13 +361,13 @@ def str_(input_file):
                     maxlen = len(tc)
                 TS[tcID] = tc[:-1]
                 tcID += 1
-        for tcID, tc in TS.items():
+        for tcID, tc in list(TS.items()):
             asciivec = []
             for c in tc:
                 asciivec.append(float(ord(c)))
             asciivec += [0.0] * (maxlen - len(tc))
             TS[tcID] = asciivec
-        shuffled = TS.items()
+        shuffled = list(TS.items())
         random.shuffle(shuffled)
         return OrderedDict(shuffled)
 
@@ -376,9 +377,9 @@ def str_(input_file):
 
     def storePairwiseDistance(TCS, sigfile):
         D = defaultdict(float)
-        combs = scipy.special.binom(len(TCS.keys()), 2)
+        combs = scipy.special.binom(len(list(TCS.keys())), 2)
         iteration, total = 0, float(combs)
-        for pair in itertools.combinations(TCS.keys(), 2):
+        for pair in itertools.combinations(list(TCS.keys()), 2):
             # print iteration, total
             iteration += 1
             if iteration % 100 == 0:
@@ -397,7 +398,7 @@ def str_(input_file):
     def removeDuplicates(TCS):
         unique = set()
         P = []
-        for tcID, tc in TCS.items():
+        for tcID, tc in list(TCS.items()):
             tc = tuple(tc)
             if tc in unique:
                 P.append(tcID)
@@ -440,7 +441,7 @@ def str_(input_file):
 
     P2 = removeDuplicates(TCS)
 
-    s = select(TCS, D, TCS.keys())
+    s = select(TCS, D, list(TCS.keys()))
     P1.append(s)
     del TCS[s]
 
@@ -473,19 +474,19 @@ def i_tsd(input_file):
             for tc in fin:
                 TS[tcID] = tc[:-1]
                 tcID += 1
-        shuffled = TS.items()
+        shuffled = list(TS.items())
         random.shuffle(shuffled)
         TS = OrderedDict(shuffled)
         return TS
 
     def compressExcept(TCS, toExclude):
-        s = " ".join([TCS[tcID] for tcID in TCS.keys() if tcID != toExclude])
+        s = " ".join([TCS[tcID] for tcID in list(TCS.keys()) if tcID != toExclude])
         cs = bz2.compress(s)
         return sys.getsizeof(cs)
 
     def select(TCS):
         maxIndex, maxCompress = 0, 0
-        for tcID in TCS.keys():
+        for tcID in list(TCS.keys()):
             c = compressExcept(TCS, tcID)
             if c > maxCompress:
                 maxIndex, maxCompress = tcID, c

@@ -45,109 +45,109 @@ def scalability(name, ts, tc, n, r, b, selsize):
             stime, ptime, prioritization = fast.fast_(
                 fin, selsize, r=r, b=b, memory=False)
             print("  Progress: 100%  ")
-            print "  Running time:", stime + ptime
+            print("  Running time:", stime + ptime)
             rep = (name, stime, ptime)
             writeOutput(outpath, filename, rep)
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "FAST-pw":
         if ("{}-{}.tsv".format(name, filename)) not in set(os.listdir(outpath)):
             stime, ptime, prioritization = fast.fast_pw(
                 fin, selsize, r=r, b=b, memory=False)
             print("  Progress: 100%  ")
-            print "  Running time:", stime + ptime
+            print("  Running time:", stime + ptime)
             rep = (name, stime, ptime)
             writeOutput(outpath, filename, rep)
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "STR":
         if ("{}-{}.tsv".format(name, filename)) not in set(os.listdir(outpath)):
-            print name
+            print(name)
             stime, ptime, prioritization = competitors.str_(fin)
             print("  Progress: 100%  ")
-            print "  Running time:", stime + ptime
+            print("  Running time:", stime + ptime)
             rep = (name, stime, ptime)
             writeOutput(outpath, filename, rep)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "I-TSD":
         if ("{}-{}.tsv".format(name, filename)) not in set(os.listdir(outpath)):
-            print name
+            print(name)
             stime, ptime, prioritization = competitors.i_tsd(fin)
             print("  Progress: 100%  ")
-            print "  Running time:", stime + ptime
+            print("  Running time:", stime + ptime)
             rep = (name, stime, ptime)
             writeOutput(outpath, filename, rep)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "GT":
         if ("{}-{}.tsv".format(name, filename)) not in set(os.listdir(outpath)):
-            print name
+            print(name)
             stime, ptime, prioritization = competitors.gt(fin)
             print("  Progress: 100%  ")
-            print "  Running time:", stime + ptime
+            print("  Running time:", stime + ptime)
             rep = (name, stime, ptime)
             writeOutput(outpath, filename, rep)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "GA":
         if ("{}-{}.tsv".format(name, filename)) not in set(os.listdir(outpath)):
-            print name
+            print(name)
             stime, ptime, prioritization = competitors.ga(fin)
             print("  Progress: 100%  ")
-            print "  Running time:", stime + ptime
+            print("  Running time:", stime + ptime)
             rep = (name, stime, ptime)
             writeOutput(outpath, filename, rep)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "GA-S":
         if ("{}-{}.tsv".format(name, filename)) not in set(os.listdir(outpath)):
-            print name
+            print(name)
             stime, ptime, prioritization = competitors.ga_s(fin)
             print("  Progress: 100%  ")
-            print "  Running time:", stime + ptime
+            print("  Running time:", stime + ptime)
             rep = (name, stime, ptime)
             writeOutput(outpath, filename, rep)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "ART-D":
         if ("{}-{}.tsv".format(name, filename)) not in set(os.listdir(outpath)):
-            print name
+            print(name)
             stime, ptime, prioritization = competitors.art_d(fin)
             print("  Progress: 100%  ")
-            print "  Running time:", stime + ptime
+            print("  Running time:", stime + ptime)
             rep = (name, stime, ptime)
             writeOutput(outpath, filename, rep)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     elif name == "ART-F":
         if ("{}-{}.tsv".format(name, filename)) not in set(os.listdir(outpath)):
-            print name
+            print(name)
             stime, ptime, prioritization = competitors.art_f(fin)
             print("  Progress: 100%  ")
-            print "  Running time:", stime + ptime
+            print("  Running time:", stime + ptime)
             rep = (name, stime, ptime)
             writeOutput(outpath, filename, rep)
             print("")
         else:
-            print name, "already run."
+            print(name, "already run.")
 
     else:
-        print "Wrong input name."
+        print("Wrong input name.")
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -200,11 +200,11 @@ if __name__ == "__main__":
     directory = "scalability/input/"
     filename = "{}x{}.txt".format(ts, tc)
     if not os.path.exists(directory):
-        print "No input folder."
+        print("No input folder.")
         exit()
     if (filename) not in set(os.listdir(directory)):
-        print "No input file:", directory + filename
-        print "The file can be generated using\n  python tools/generate-scalability-input.py <tssize> <tcsize>"
+        print("No input file:", directory + filename)
+        print("The file can be generated using\n  python tools/generate-scalability-input.py <tssize> <tcsize>")
         exit()
 
     # FAST parameters
