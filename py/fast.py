@@ -81,13 +81,13 @@ def loadSignatures(input_file):
     OUTPUT
     (dict)TS: key=tc_ID, val=set(covered lines), sigtime"""
     sig = {}
-    start = time.clock()
+    start = time.time()
     with open(input_file, "r") as fin:
         tcID = 1
         for tc in fin:
             sig[tcID] = [pack('>d', float(i)) for i in tc[:-1].split()]
             tcID += 1
-    return sig, time.clock() - start
+    return sig, time.time() - start
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -113,27 +113,27 @@ def fast_pw(input_file, r, b, bbox=False, k=5, memory=False):
     if memory:
         test_suite = loadTestSuite(input_file, bbox=bbox, k=k)
         # generate minhashes signatures
-        mh_t = time.clock()
+        mh_t = time.time()
         tcs_minhashes = {tc[0]: lsh.tcMinhashing(tc, hashes)
                          for tc in list(test_suite.items())}
-        mh_time = time.clock() - mh_t
-        ptime_start = time.clock()
+        mh_time = time.time() - mh_t
+        ptime_start = time.time()
 
     else:
         # loading input file and generating minhashes signatures
         sigfile = input_file.replace(".txt", ".sig")
         sigtimefile = "{}_sigtime.txt".format(input_file.split(".")[0])
         if not os.path.exists(sigfile):
-            mh_t = time.clock()
+            mh_t = time.time()
             storeSignatures(input_file, sigfile, hashes, bbox, k)
-            mh_time = time.clock() - mh_t
+            mh_time = time.time() - mh_t
             with open(sigtimefile, "w") as fout:
                 fout.write(repr(mh_time))
         else:
             with open(sigtimefile, "r") as fin:
                 mh_time = eval(fin.read().replace("\n", ""))
 
-        ptime_start = time.clock()
+        ptime_start = time.time()
         tcs_minhashes, load_time = loadSignatures(sigfile)
 
     tcs = set(tcs_minhashes.keys())
@@ -197,7 +197,7 @@ def fast_pw(input_file, r, b, bbox=False, k=5, memory=False):
         tcs -= set([selected_tc])
         del tcs_minhashes[selected_tc]
 
-    ptime = time.clock() - ptime_start
+    ptime = time.time() - ptime_start
 
     return mh_time, ptime, prioritized_tcs[1:]
 
@@ -225,27 +225,27 @@ def fast_(input_file, selsize, r, b, bbox=False, k=5, memory=False):
     if memory:
         test_suite = loadTestSuite(input_file, bbox=bbox, k=k)
         # generate minhashes signatures
-        mh_t = time.clock()
+        mh_t = time.time()
         tcs_minhashes = {tc[0]: lsh.tcMinhashing(tc, hashes)
                          for tc in list(test_suite.items())}
-        mh_time = time.clock() - mh_t
-        ptime_start = time.clock()
+        mh_time = time.time() - mh_t
+        ptime_start = time.time()
 
     else:
         # loading input file and generating minhashes signatures
         sigfile = input_file.replace(".txt", ".sig")
         sigtimefile = "{}_sigtime.txt".format(input_file.split(".")[0])
         if not os.path.exists(sigfile):
-            mh_t = time.clock()
+            mh_t = time.time()
             storeSignatures(input_file, sigfile, hashes, bbox, k)
-            mh_time = time.clock() - mh_t
+            mh_time = time.time() - mh_t
             with open(sigtimefile, "w") as fout:
                 fout.write(repr(mh_time))
         else:
             with open(sigtimefile, "r") as fin:
                 mh_time = eval(fin.read().replace("\n", ""))
 
-        ptime_start = time.clock()
+        ptime_start = time.time()
         tcs_minhashes, load_time = loadSignatures(sigfile)
 
     tcs = set(tcs_minhashes.keys())
@@ -305,6 +305,6 @@ def fast_(input_file, selsize, r, b, bbox=False, k=5, memory=False):
             tcs -= set([selected_tc])
             del tcs_minhashes[selected_tc]
 
-    ptime = time.clock() - ptime_start
+    ptime = time.time() - ptime_start
 
     return mh_time, ptime, prioritized_tcs[1:]
