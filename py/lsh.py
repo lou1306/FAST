@@ -65,7 +65,7 @@ def tcMinhashing(test_case, hash_functions):
     n = len(hash_functions)
     tc_ID, tc_shingles = test_case
     # initialized to max_value ('ffffffff') to correctly compute the min
-    tc_signature = ["ffffffff" for i in range(n)]
+    tc_signature = [b"ffffffff" for i in range(n)]
     for tc_shingle in tc_shingles:
         for i in range(n):
             tc_hash = hash_functions[i](str(tc_shingle))
