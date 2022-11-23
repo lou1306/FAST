@@ -67,10 +67,11 @@ def tcMinhashing(test_case, hash_functions):
     # initialized to max_value ('ffffffff') to correctly compute the min
     tc_signature = [b"ffffffff" for i in range(n)]
     for tc_shingle in tc_shingles:
-        for i in range(n):
-            tc_hash = hash_functions[i](str(tc_shingle))
-            if tc_hash < tc_signature[i]:
-                tc_signature[i] = tc_hash
+        if tc_shingle is not None:  # Luca
+            for i in range(n):
+                tc_hash = hash_functions[i](str(tc_shingle))
+                if tc_hash < tc_signature[i]:
+                    tc_signature[i] = tc_hash
 
     return tc_signature
 
